@@ -2,6 +2,8 @@
 #include <SDL.h>
 #include <SDL_image.h>
 
+#include "game.h"
+
 int main(int argc, char *argv[])
 {
 	// initialize
@@ -38,44 +40,15 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	
-	// load assets
-	SDL_Texture *tex_bubble = IMG_LoadTexture(rend, "bubble.png");
-	if (tex_bubble == NULL) {
-		fprintf(stderr, "Error creating texture: %s\n", IMG_GetError());
+	int errors_present = 0;
+	SDL_Texture *tex_bubble = 0;
+	errors_present = gameInitialize(rend, &tex_bubble);
+	if (errors_present)
 		return 0;
-	}
-	
-	int wind_width;
-	int wind_height;
-	SDL_GetWindowSize(wind, &wind_width, &wind_height);
-	int running = 1;
-	SDL_Event event;
-	while (running) {
-		// events
-		while (SDL_PollEvent(&event)) {
-			switch (event.type) {
-				case SDL_QUIT: running = 0; break;
-				default: break;
-			}
-		}
-		
-		// clear screen
-		SDL_SetRenderDrawColor(rend, 0, 0, 0, 255);
-		SDL_RenderClear(rend);
-		
-		// draw assets
-		const SDL_Rect bubble_rect = {wind_width / 2 - 100, wind_height / 2 - 100, 200, 200};
-		SDL_RenderCopy(rend, tex_bubble, NULL, &bubble_rect);
-		
-		// draw to window
-		SDL_RenderPresent(rend);
-		
-		// wait until next frame
-		SDL_Delay(1000.0 / 60);
-	}
+	gameRun(wind, rend, tex_bubble);
+	gameDestroy(tex_bubble);
 	
 	// release resources
-	SDL_DestroyTexture(tex_bubble);
 	SDL_DestroyRenderer(rend);
 	SDL_DestroyWindow(wind);
 	SDL_Quit();
