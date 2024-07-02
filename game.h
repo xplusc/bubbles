@@ -12,7 +12,9 @@
 extern const Uint64 MS_PER_UPDATE;
 
 int gameInitialize(SDL_Renderer*, SDL_Texture**);
-void gameRun(SDL_Window*, SDL_Renderer*, SDL_Texture*);
+void gameUpdate(Uint64, double*);
+void gameRender(SDL_Window*, SDL_Renderer*, SDL_Texture*, const double);
 void gameDestroy(SDL_Texture*);
+int gameRun(SDL_Window*, SDL_Renderer*);
 
 #endif // GAME_H

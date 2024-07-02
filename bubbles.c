@@ -40,13 +40,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	
-	int errors_present = 0;
-	SDL_Texture *tex_bubble = 0;
-	errors_present = gameInitialize(rend, &tex_bubble);
-	if (errors_present)
-		return 0;
-	gameRun(wind, rend, tex_bubble);
-	gameDestroy(tex_bubble);
+	gameRun(wind, rend);
 	
 	// release resources
 	SDL_DestroyRenderer(rend);
