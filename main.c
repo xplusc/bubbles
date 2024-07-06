@@ -1,12 +1,15 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 #include <SDL.h>
 #include <SDL_image.h>
 
 #include "game.h"
 
 int main(int argc, char *argv[])
-{
+{	
 	// initialize
+	srand(time(NULL));
 	if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
 		fprintf(stderr, "Error initializing SDL: %s\n", SDL_GetError());
 		return 0;
@@ -17,6 +20,8 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	printf("SDL_image successfully initialized\n");
+	
+	//SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "1");
 	
 	// window
 	SDL_Window *wind = SDL_CreateWindow(
