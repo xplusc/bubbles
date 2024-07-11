@@ -8,33 +8,7 @@
 #include "bubble.h"
 
 const Uint64 MS_PER_UPDATE = 16;
-const size_t BUBBLES_SIZE = 25000;
-
-int gameInitialize(SDL_Renderer *rend, SDL_Texture **tex_bubble, BubbleSprite *bubbles, const size_t num_bubbles)
-{
-	// load assets
-	*tex_bubble = IMG_LoadTexture(rend, "bubble.png");
-	if (*tex_bubble == NULL) {
-		fprintf(stderr, "Error creating texture: %s\n", IMG_GetError());
-		return -1;
-	}
-	
-	for (size_t i = 0; i < num_bubbles; ++i) {
-		BubbleSprite bs = {
-			(double) (rand() % 640),
-			(double) (rand() % 480),
-			(double) (rand() % 15) + 35.0,
-			(double) (rand() % 250) + 625.0,
-			(double) (rand() % 10) / 100.0 + 0.1,
-			{0},
-			*tex_bubble
-		};
-		//SDL_Rect r = {640 / 2 - 50 / 2 + 60 * ((int) i - 5), 480 / 2 - 50 / 2, 50, 50};
-		bubbles[i] = bs;
-	}
-	
-	return 0;
-}
+const size_t BUBBLES_SIZE = 25;
 
 void gameUpdate(Uint64 current_time, BubbleSprite *bubbles, SDL_Rect *rects, const size_t num_bubbles)
 {
@@ -71,21 +45,33 @@ void gameRender(SDL_Window *wind, SDL_Renderer *rend, SDL_Texture *tex_bubble, c
 	return;
 }
 
-void gameDestroy(SDL_Texture *tex_bubble)
-{
-	SDL_DestroyTexture(tex_bubble);
-	return;
-}
-
 int gameRun(SDL_Window *wind, SDL_Renderer *rend)
 {
+/* initialize game assets and data */
 	BubbleSprite bubbles[BUBBLES_SIZE];
 	SDL_Rect rects[BUBBLES_SIZE];
 	
-	SDL_Texture *tex_bubble = 0;
-	if (gameInitialize(rend, &tex_bubble, bubbles, BUBBLES_SIZE)) // returns true on error
+	SDL_Texture *tex_bubble = IMG_LoadTexture(rend, "bubble.png");
+	if (tex_bubble == NULL) {
+		fprintf(stderr, "Error creating texture: %s\n", IMG_GetError());
 		return -1;
+	}
 	
+	for (size_t i = 0; i < BUBBLES_SIZE; ++i) {
+		BubbleSprite bs = {
+			(double) (rand() % 640),
+			(double) (rand() % 480),
+			(double) (rand() % 15) + 35.0,
+			(double) (rand() % 250) + 625.0,
+			(double) (rand() % 10) / 100.0 + 0.1,
+			{0},
+			tex_bubble
+		};
+		//SDL_Rect r = {640 / 2 - 50 / 2 + 60 * ((int) i - 5), 480 / 2 - 50 / 2, 50, 50};
+		bubbles[i] = bs;
+	}
+
+/* run the game */	
 	int game_running = 1;
 	Uint64 simulation_time = SDL_GetTicks64();
 	while (game_running) {
@@ -106,7 +92,8 @@ int gameRun(SDL_Window *wind, SDL_Renderer *rend)
 		
 		gameRender(wind, rend, tex_bubble, rects, BUBBLES_SIZE);
 	}
-	
-	gameDestroy(tex_bubble);
+
+/* free all game assets */	
+	SDL_DestroyTexture(tex_bubble);
 	return 0;
 }
