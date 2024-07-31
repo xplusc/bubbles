@@ -5,6 +5,7 @@
 #include <math.h>
 #include <SDL_image.h>
 
+#include "input.h"
 #include "bubble.h"
 #include "tank.h"
 
@@ -84,8 +85,11 @@ int gameRun(SDL_Window *wind, SDL_Renderer *rend)
 	player_tank.rot = 0.0;
 	player_tank.bubbles_size = BUBBLES_SIZE;
 	player_tank.bubbles = bubbles;
+	
+	Input input;
+	inputInit(&input);
 
-/* run the game */	
+/* run the game */
 	int game_running = 1;
 	Uint64 simulation_time = SDL_GetTicks64();
 	while (game_running) {
@@ -93,21 +97,20 @@ int gameRun(SDL_Window *wind, SDL_Renderer *rend)
 		
 		while (simulation_time < current_time) {
 			simulation_time += MS_PER_UPDATE;
-			gameUpdate(simulation_time, &player_tank, rects);
-			SDL_Event event;
-			// input events
-			while (SDL_PollEvent(&event)) {
-				switch (event.type) {
-					case SDL_QUIT: game_running = 0; break;
-					default: break;
-				}
+			inputPoll(&input);
+			for (int i = COMMAND_START; i <= COMMAND_END; ++i) {
+				printf("%x ", input.command_states[i]);
 			}
+			printf("\n");
+			gameUpdate(simulation_time, &player_tank, rects);
+			if (inputGetCommandState(&input, COMMAND_QUIT) & 0x1)
+				game_running = 0;
 		}
 		
 		gameRender(wind, rend, tex_bubble, rects, BUBBLES_SIZE);
 	}
 
-/* free all game assets */	
+/* free all game assets */
 	SDL_DestroyTexture(tex_bubble);
 	return 0;
 }
