@@ -5,16 +5,16 @@
 #include <math.h>
 #include <SDL_image.h>
 
-#include "input.h"
-#include "bubble.h"
-#include "tank.h"
-
 const Uint64 MS_PER_UPDATE = 16;
 const size_t BUBBLES_SIZE = 25;
 
-void gameUpdate(Uint64 current_time, Tank *tank, SDL_Rect *rects)
+void gameUpdate(Uint64 current_time, const Input *input, Tank *tank, SDL_Rect *rects)
 {
-	tank->rot += 0.017;
+	if (inputGetCommandState(input, COMMAND_PLAYER_ROTATE_CW) & KEY_DOWN) {
+		tank->rot += 0.017;
+	} else if (inputGetCommandState(input, COMMAND_PLAYER_ROTATE_CCW) & KEY_DOWN) {
+		tank->rot -= 0.017;
+	}
 	for (size_t i = 0; i < tank->bubbles_size; ++i) {
 		BubbleSprite bs = tank->bubbles[i];
 		unsigned long total_complete_periods = (unsigned long) ((double) current_time / bs.period); // rounding down on purpose with the cast
@@ -98,12 +98,12 @@ int gameRun(SDL_Window *wind, SDL_Renderer *rend)
 		while (simulation_time < current_time) {
 			simulation_time += MS_PER_UPDATE;
 			inputPoll(&input);
-			for (int i = COMMAND_START; i <= COMMAND_END; ++i) {
+			/*for (int i = COMMAND_START; i <= COMMAND_END; ++i) {
 				printf("%x ", input.command_states[i]);
 			}
-			printf("\n");
-			gameUpdate(simulation_time, &player_tank, rects);
-			if (inputGetCommandState(&input, COMMAND_QUIT) & 0x1)
+			printf("\n");*/
+			gameUpdate(simulation_time, &input, &player_tank, rects);
+			if (inputGetCommandState(&input, COMMAND_QUIT) & KEY_PRESSED)
 				game_running = 0;
 		}
 		

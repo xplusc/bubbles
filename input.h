@@ -12,17 +12,21 @@ enum input_command {
 };
 typedef enum input_command InputCommand;
 
+enum input_state {
+	KEY_DOWN     = 0x1,
+	KEY_UP       = 0x2,
+	KEY_PRESSED  = 0x4,
+	KEY_RELEASED = 0x8
+};
+typedef enum input_state InputState;
+
 struct input {
-	// 0x1 = key down
-	// 0x2 = key up
-	// 0x4 = key pressed
-	// 0x8 = key released
-	InputCommand command_states[COMMAND_END + 1];
+	int command_states[COMMAND_END + 1];
 };
 typedef struct input Input;
 
 void inputInit(Input*);
 void inputPoll(Input*);
-int inputGetCommandState(Input*, int);
+int inputGetCommandState(const Input*, int);
 
 #endif // INPUT_H
