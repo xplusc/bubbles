@@ -2,7 +2,7 @@
 
 void input_Init(Input *input)
 {
-	for (size_t i = COMMAND_START; i <= COMMAND_END; ++i) {
+	for (size_t i = COMMAND_START; i < COMMAND_END; ++i) {
 		input->command_states[i] = 0; // command is inactive
 	}
 }
@@ -10,6 +10,7 @@ void input_Init(Input *input)
 void input_Poll(Input *input)
 {
 	SDL_Event event;
+	// there may be multiple input events so we must loop until all are handled
 	while (SDL_PollEvent(&event) != 0) {
 		if (event.type == SDL_QUIT) {
 			input->command_states[COMMAND_QUIT] = 1;
@@ -29,7 +30,7 @@ void input_Poll(Input *input)
 	}
 }
 
-char input_CommandActive(const Input *input, int command)
+char input_CommandActive(const Input *input, InputCommand command)
 {
 	return input->command_states[command];
 }

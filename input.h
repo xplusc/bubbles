@@ -1,8 +1,16 @@
+/**
+ * The Input struct. Keeps track of which commands are currently active.
+ * Maintains bindings between SDL scancodes and commands that control the game.
+ * Allows callback functions to be registered to any SDL_KEYDOWN or SDL_KEYUP
+ * event.
+ */
+
 #ifndef INPUT_H
 #define INPUT_h
 
 #include <SDL.h>
 
+/* Command definitions: */
 enum input_command {
 	COMMAND_START					= 0,
 	COMMAND_PLAYER_ROTATE_CW		= 0,
@@ -12,21 +20,32 @@ enum input_command {
 };
 typedef enum input_command InputCommand;
 
-/*enum input_state {
-	KEY_DOWN     = 0x1,
-	KEY_UP       = 0x2,
-	KEY_PRESSED  = 0x4,
-	KEY_RELEASED = 0x8
-};
-typedef enum input_state InputState;*/
-
+/**
+ * The input struct an array of current command states, a mapping of SDL scancodes
+ * to commands, and a mapping of commands to function pointers for callback functions.
+ */
 struct input {
-	char command_states[COMMAND_END];
+	//InputCommand command_map[NUM_SCANCODES]; // indices are SDL scancodes, elements are commands
+	//void (*function_map[COMMAND_END])(); // indices are commands, elements are pointers to functions taking no arguments and returning void
+	char command_states[COMMAND_END]; // OPTIMIZATION: Use a bit field to reduce the space needed even further.
 };
 typedef struct input Input;
 
+/**
+ * Initializes the input struct such that command_map contains all default key bindings,
+ * function_map is empty, and command_states is filled with zeros (command inactive).
+ */
 void input_Init(Input*);
+
+/**
+ * Updates the input struct with the currently received input events, consumes the
+ * events.
+ */
 void input_Poll(Input*);
-char input_CommandActive(const Input*, int);
+
+/**
+ * Given the command type returns 1 if it is currently active, 0 otherwise.
+ */
+char input_CommandActive(const Input*, InputCommand);
 
 #endif // INPUT_H

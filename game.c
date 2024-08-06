@@ -98,10 +98,6 @@ int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 		while (simulation_time < current_time) {
 			simulation_time += MS_PER_UPDATE;
 			input_Poll(&input);
-			/*for (int i = COMMAND_START; i <= COMMAND_END; ++i) {
-				printf("%x ", input.command_states[i]);
-			}
-			printf("\n");*/
 			game_Update(simulation_time, &input, &player_tank, rects);
 			if (input_CommandActive(&input, COMMAND_QUIT))
 				game_running = 0;
