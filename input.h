@@ -8,25 +8,25 @@ enum input_command {
 	COMMAND_PLAYER_ROTATE_CW		= 0,
 	COMMAND_PLAYER_ROTATE_CCW		= 1,
 	COMMAND_QUIT					= 2,
-	COMMAND_END						= 2
+	COMMAND_END						= 3
 };
 typedef enum input_command InputCommand;
 
-enum input_state {
+/*enum input_state {
 	KEY_DOWN     = 0x1,
 	KEY_UP       = 0x2,
 	KEY_PRESSED  = 0x4,
 	KEY_RELEASED = 0x8
 };
-typedef enum input_state InputState;
+typedef enum input_state InputState;*/
 
 struct input {
-	int command_states[COMMAND_END + 1];
+	char command_states[COMMAND_END];
 };
 typedef struct input Input;
 
 void input_Init(Input*);
 void input_Poll(Input*);
-int  input_GetCommandState(const Input*, int);
+char input_CommandActive(const Input*, int);
 
 #endif // INPUT_H

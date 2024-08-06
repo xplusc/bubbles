@@ -10,9 +10,9 @@ const size_t BUBBLES_SIZE = 25;
 
 void game_Update(Uint64 current_time, const Input *input, Tank *tank, SDL_Rect *rects)
 {
-	if (input_GetCommandState(input, COMMAND_PLAYER_ROTATE_CW) & KEY_DOWN) {
+	if (input_CommandActive(input, COMMAND_PLAYER_ROTATE_CW)) {
 		tank->rot += 0.017;
-	} else if (input_GetCommandState(input, COMMAND_PLAYER_ROTATE_CCW) & KEY_DOWN) {
+	} else if (input_CommandActive(input, COMMAND_PLAYER_ROTATE_CCW)) {
 		tank->rot -= 0.017;
 	}
 	for (size_t i = 0; i < tank->bubbles_size; ++i) {
@@ -103,7 +103,7 @@ int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 			}
 			printf("\n");*/
 			game_Update(simulation_time, &input, &player_tank, rects);
-			if (input_GetCommandState(&input, COMMAND_QUIT) & KEY_PRESSED)
+			if (input_CommandActive(&input, COMMAND_QUIT))
 				game_running = 0;
 		}
 		
