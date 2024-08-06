@@ -25,8 +25,8 @@ struct input {
 };
 typedef struct input Input;
 
-void inputInit(Input*);
-void inputPoll(Input*);
-int inputGetCommandState(const Input*, int);
+void input_Init(Input*);
+void input_Poll(Input*);
+int  input_GetCommandState(const Input*, int);
 
 #endif // INPUT_H

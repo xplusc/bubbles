@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 		return 0;
 	}
 	
-	gameRun(wind, rend);
+	game_Run(wind, rend);
 	
 	// release resources
 	SDL_DestroyRenderer(rend);

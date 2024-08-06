@@ -1,13 +1,13 @@
 #include "input.h"
 
-void inputInit(Input *input)
+void input_Init(Input *input)
 {
 	for (size_t i = COMMAND_START; i <= COMMAND_END; ++i) {
 		input->command_states[i] = KEY_UP;
 	}
 }
 
-void inputPoll(Input *input)
+void input_Poll(Input *input)
 {
 	SDL_Event event;
 	while (SDL_PollEvent(&event) != 0) {
@@ -29,7 +29,7 @@ void inputPoll(Input *input)
 	}
 }
 
-int inputGetCommandState(const Input *input, int command)
+int input_GetCommandState(const Input *input, int command)
 {
 	return input->command_states[command];
 }

@@ -8,11 +8,11 @@
 const Uint64 MS_PER_UPDATE = 16;
 const size_t BUBBLES_SIZE = 25;
 
-void gameUpdate(Uint64 current_time, const Input *input, Tank *tank, SDL_Rect *rects)
+void game_Update(Uint64 current_time, const Input *input, Tank *tank, SDL_Rect *rects)
 {
-	if (inputGetCommandState(input, COMMAND_PLAYER_ROTATE_CW) & KEY_DOWN) {
+	if (input_GetCommandState(input, COMMAND_PLAYER_ROTATE_CW) & KEY_DOWN) {
 		tank->rot += 0.017;
-	} else if (inputGetCommandState(input, COMMAND_PLAYER_ROTATE_CCW) & KEY_DOWN) {
+	} else if (input_GetCommandState(input, COMMAND_PLAYER_ROTATE_CCW) & KEY_DOWN) {
 		tank->rot -= 0.017;
 	}
 	for (size_t i = 0; i < tank->bubbles_size; ++i) {
@@ -33,7 +33,7 @@ void gameUpdate(Uint64 current_time, const Input *input, Tank *tank, SDL_Rect *r
 	return;
 }
 
-void gameRender(SDL_Window *wind, SDL_Renderer *rend, SDL_Texture *tex_bubble, const SDL_Rect *rects, const size_t num_rects)
+void game_Render(SDL_Window *wind, SDL_Renderer *rend, SDL_Texture *tex_bubble, const SDL_Rect *rects, const size_t num_rects)
 {
 	int wind_width;
 	int wind_height;
@@ -53,7 +53,7 @@ void gameRender(SDL_Window *wind, SDL_Renderer *rend, SDL_Texture *tex_bubble, c
 	return;
 }
 
-int gameRun(SDL_Window *wind, SDL_Renderer *rend)
+int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 {
 /* initialize game assets and data */
 	Tank player_tank;
@@ -87,7 +87,7 @@ int gameRun(SDL_Window *wind, SDL_Renderer *rend)
 	player_tank.bubbles = bubbles;
 	
 	Input input;
-	inputInit(&input);
+	input_Init(&input);
 
 /* run the game */
 	int game_running = 1;
@@ -97,17 +97,17 @@ int gameRun(SDL_Window *wind, SDL_Renderer *rend)
 		
 		while (simulation_time < current_time) {
 			simulation_time += MS_PER_UPDATE;
-			inputPoll(&input);
+			input_Poll(&input);
 			/*for (int i = COMMAND_START; i <= COMMAND_END; ++i) {
 				printf("%x ", input.command_states[i]);
 			}
 			printf("\n");*/
-			gameUpdate(simulation_time, &input, &player_tank, rects);
-			if (inputGetCommandState(&input, COMMAND_QUIT) & KEY_PRESSED)
+			game_Update(simulation_time, &input, &player_tank, rects);
+			if (input_GetCommandState(&input, COMMAND_QUIT) & KEY_PRESSED)
 				game_running = 0;
 		}
 		
-		gameRender(wind, rend, tex_bubble, rects, BUBBLES_SIZE);
+		game_Render(wind, rend, tex_bubble, rects, BUBBLES_SIZE);
 	}
 
 /* free all game assets */
