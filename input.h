@@ -32,13 +32,13 @@ struct input {
 typedef struct input Input;
 
 /**
- * Initializes the input struct such that command_map contains all default key bindings,
+ * Initialize the input struct such that command_map contains all default key bindings,
  * function_map is empty, and command_states is filled with zeros (command inactive).
  */
 void input_Init(Input*);
 
 /**
- * Updates the input struct with the currently received input events, consumes the
+ * Update the input struct with the currently received input events, consumes the
  * events.
  */
 void input_Poll(Input*);
