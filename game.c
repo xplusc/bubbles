@@ -6,15 +6,11 @@
 #include <SDL_image.h>
 
 const Uint64 MS_PER_UPDATE = 16;
-const size_t BUBBLES_SIZE = 25;
+const size_t BUBBLES_SIZE = 4;
 
 void game_Update(Uint64 current_time, const Input *input, Tank *tank, SDL_Rect *rects)
 {
-	if (input_CommandActive(input, COMMAND_PLAYER_ROTATE_CW)) {
-		tank->rot += 0.017;
-	} else if (input_CommandActive(input, COMMAND_PLAYER_ROTATE_CCW)) {
-		tank->rot -= 0.017;
-	}
+	tank_ApplyControls(input, tank);
 	for (size_t i = 0; i < tank->bubbles_size; ++i) {
 		BubbleSprite bs = tank->bubbles[i];
 		unsigned long total_complete_periods = (unsigned long) ((double) current_time / bs.period); // rounding down on purpose with the cast
@@ -66,7 +62,7 @@ int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 		return -1;
 	}
 	
-	for (size_t i = 0; i < BUBBLES_SIZE; ++i) {
+	/*for (size_t i = 0; i < BUBBLES_SIZE; ++i) {
 		BubbleSprite bs = {
 			(double) (rand() % 640) - 320.0,
 			(double) (rand() % 480) - 240.0,
@@ -78,7 +74,17 @@ int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 		};
 		//SDL_Rect r = {640 / 2 - 50 / 2 + 60 * ((int) i - 5), 480 / 2 - 50 / 2, 50, 50};
 		bubbles[i] = bs;
-	}
+	}*/
+	BubbleSprite bs = {0.0, 0.0, 40.0, 625.0, 0.15, {0}, tex_bubble};
+	bubbles[0] = bs;
+	bs.x += 25.0;
+	bs.size += -20.0;
+	bubbles[1] = bs;
+	bs.x += -50.0;
+	bs.y += -15.0;
+	bubbles[2] = bs;
+	bs.y += 30.0;
+	bubbles[3] = bs;
 	
 	player_tank.x = 320.0;
 	player_tank.y = 240.0;

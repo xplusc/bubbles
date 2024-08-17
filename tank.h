@@ -7,6 +7,7 @@
 #ifndef TANK_H
 #define TANK_H
 
+#include "input.h"
 #include "bubble.h"
 
 struct tank {
@@ -17,5 +18,11 @@ struct tank {
 	BubbleSprite *bubbles;
 };
 typedef struct tank Tank;
+
+/**
+ * Apply the current controls active in an input object to a tank.
+ * This will control the tank's motion and rotation.
+ */
+void tank_ApplyControls(const Input*, Tank*);
 
 #endif // TANK_H

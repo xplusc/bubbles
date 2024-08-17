@@ -9,23 +9,24 @@ void input_Init(Input *input)
 
 void input_Poll(Input *input)
 {
-	SDL_Event event;
+	SDL_Event e;
 	// there may be multiple input events so we must loop until all are handled
-	while (SDL_PollEvent(&event) != 0) {
-		if (event.type == SDL_QUIT) {
+	while (SDL_PollEvent(&e) != 0) {
+		if (e.type == SDL_QUIT) {
 			input->command_states[COMMAND_QUIT] = 1;
-		} else if (event.type == SDL_KEYDOWN) {
-			switch (event.key.keysym.sym) {
-				case SDLK_LEFT:  input->command_states[COMMAND_PLAYER_ROTATE_CCW] = 1; break;
-				case SDLK_RIGHT: input->command_states[COMMAND_PLAYER_ROTATE_CW]  = 1; break;
+		} else if (e.type == SDL_KEYDOWN || e.type == SDL_KEYUP) {
+			switch (e.key.keysym.sym) {
+				case SDLK_w: input->command_states[COMMAND_PLAYER_MOVE_UP]    = e.type == SDL_KEYDOWN; break; // 1 if key down, 0 if key up
+				case SDLK_a: input->command_states[COMMAND_PLAYER_MOVE_LEFT]  = e.type == SDL_KEYDOWN; break;
+				case SDLK_s: input->command_states[COMMAND_PLAYER_MOVE_DOWN]  = e.type == SDL_KEYDOWN; break;
+				case SDLK_d: input->command_states[COMMAND_PLAYER_MOVE_RIGHT] = e.type == SDL_KEYDOWN; break;
 				default: break;
 			}
-		} else if (event.type == SDL_KEYUP) {
-			switch (event.key.keysym.sym) {
-				case SDLK_LEFT:  input->command_states[COMMAND_PLAYER_ROTATE_CCW] = 0; break;
-				case SDLK_RIGHT: input->command_states[COMMAND_PLAYER_ROTATE_CW]  = 0; break;
-				default: break;
-			}
+		} else if (e.type == SDL_MOUSEMOTION) {
+			int mouse_x, mouse_y;
+			SDL_GetMouseState(&mouse_x, &mouse_y);
+			input->cursor_x = (double) mouse_x;
+			input->cursor_y = (double) mouse_y;
 		}
 	}
 }
