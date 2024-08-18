@@ -5,8 +5,11 @@
 #include <math.h>
 #include <SDL_image.h>
 
+#include "arraylist.h"
+
 const Uint64 MS_PER_UPDATE = 16;
 const size_t BUBBLES_SIZE = 4;
+ArrayList *test_list;
 
 void game_Update(Uint64 current_time, const Input *input, Tank *tank, SDL_Rect *rects)
 {
@@ -52,6 +55,15 @@ void game_Render(SDL_Window *wind, SDL_Renderer *rend, SDL_Texture *tex_bubble, 
 int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 {
 /* initialize game assets and data */
+	test_list = arraylist_Create(sizeof(BubbleSprite));
+	for (int i = 0; i < 50; ++i) {
+		BubbleSprite bs = {0};
+		if (arraylist_Append(test_list, &bs)) {
+			fprintf(stderr, "ERROR while appending to ArrayList\n");
+			break;
+		}
+	}
+	
 	Tank player_tank;
 	BubbleSprite bubbles[BUBBLES_SIZE];
 	SDL_Rect rects[BUBBLES_SIZE];
@@ -113,6 +125,7 @@ int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 	}
 
 /* free all game assets */
+	arraylist_Destroy(test_list);
 	SDL_DestroyTexture(tex_bubble);
 	return 0;
 }

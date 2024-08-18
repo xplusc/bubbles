@@ -5,6 +5,7 @@ gcc -o bubbles \
 	game.c \
 	input.c \
 	tank.c \
+	arraylist.c \
 	-I./SDL2/include/SDL2 -I./SDL2_image/include/SDL2 \
 	-L./SDL2/lib -L./SDL2_image/lib \
 	-lmingw32 -lSDL2main -lSDL2 -lSDL2_image

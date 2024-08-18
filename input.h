@@ -48,7 +48,7 @@ void input_Init(Input*);
 void input_Poll(Input*);
 
 /**
- * Given the command type returns 1 if it is currently active, 0 otherwise.
+ * Given the command type return 1 if it is currently active, 0 otherwise.
  */
 char input_CommandActive(const Input*, InputCommand);
 
