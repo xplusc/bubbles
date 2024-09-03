@@ -34,13 +34,35 @@ ArrayList *arraylist_Create(size_t);
 int arraylist_Append(ArrayList*, void*);
 
 /**
+ * Return the element at <index> from <list>. Returns a null pointer
+ * if <index> is out of bounds.
+ */
+void *arraylist_At(const ArrayList*, size_t);
+
+/**
+ * Update the element at <index> from <list> to be equal to <value>. Reduces
+ * to arraylist_Append() if <index> is equal to the number of elements in
+ * <list>. Returns 1 if <index> is out of bounds or if appending to <list>
+ * failed.
+ */
+int arraylist_UpdateAt(ArrayList*, size_t, void*);
+
+/**
+ * Remove the element at <index> from <list>. Moves all elements after the
+ * removed element down by one index and updates <num_elements>. MUST CLEAN
+ * UP ELEMENT BEFORE REMOVAL OR THERE WILL BE MEMORY LEAKS. Returns 1 if
+ * <index> is out of bounds.
+ */
+int arraylist_RemoveAt(ArrayList*, size_t);
+
+/**
  * Expand an ArrayList's capacity by doubling it with realloc().
  * Returns 1 if an error occurred while reallocating memory.
  */
-int arraylist_Expand(ArrayList*);
+int arraylist_Expand(ArrayList*); // TODO: make static?
 
 /**
- * Free the resources used by the specified ArrayList.
+ * Free the resources used by <list>.
  */
 void arraylist_Destroy(ArrayList*);
 
