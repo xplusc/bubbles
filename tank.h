@@ -13,6 +13,8 @@
 struct tank {
 	double x;	// units pending
 	double y;	// units pending
+	double v_x;	// units pending
+	double v_y;	// units pending
 	double rot; // rotation angle in radians, positive is clockwise, 0 is the x-axis
 	size_t bubbles_size;
 	BubbleSprite *bubbles;
