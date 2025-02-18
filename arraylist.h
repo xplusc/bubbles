@@ -23,7 +23,7 @@ typedef struct array_list ArrayList;
  * Create an ArrayList to store elements of the specified size.
  * Capacity defaults to ARRAYLIST_DEFAULT_CAPACITY.
  */
-ArrayList *arraylist_Create(size_t);
+ArrayList *arraylist_Create(const size_t);
 
 /**
  * Append the given element to the list. Requires a pointer to the ArrayList
@@ -31,13 +31,13 @@ ArrayList *arraylist_Create(size_t);
  * if adding the element would exceed its current capacity.
  * Returns 1 if an error occurred while reallocating memory.
  */
-int arraylist_Append(ArrayList*, void*);
+int arraylist_Append(ArrayList*, const void*);
 
 /**
  * Return the element at <index> from <list>. Returns a null pointer
  * if <index> is out of bounds.
  */
-void *arraylist_At(const ArrayList*, size_t);
+void *arraylist_At(const ArrayList*, const size_t);
 
 /**
  * Update the element at <index> from <list> to be equal to <value>. Reduces
@@ -45,7 +45,7 @@ void *arraylist_At(const ArrayList*, size_t);
  * <list>. Returns 1 if <index> is out of bounds or if appending to <list>
  * failed.
  */
-int arraylist_UpdateAt(ArrayList*, size_t, void*);
+int arraylist_UpdateAt(ArrayList*, const size_t, const void*);
 
 /**
  * Remove the element at <index> from <list>. Moves all elements after the
@@ -53,7 +53,7 @@ int arraylist_UpdateAt(ArrayList*, size_t, void*);
  * UP ELEMENT BEFORE REMOVAL OR THERE WILL BE MEMORY LEAKS. Returns 1 if
  * <index> is out of bounds.
  */
-int arraylist_RemoveAt(ArrayList*, size_t);
+int arraylist_RemoveAt(ArrayList*, const size_t);
 
 /**
  * Expand an ArrayList's capacity by doubling it with realloc().
@@ -64,6 +64,6 @@ int arraylist_Expand(ArrayList*); // TODO: make static?
 /**
  * Free the resources used by <list>.
  */
-void arraylist_Destroy(ArrayList*);
+void arraylist_Destroy(ArrayList**);
 
 #endif // ARRAYLIST_H
