@@ -20,6 +20,7 @@ void input_Poll(Input *input)
 				case SDLK_a: input->command_states[COMMAND_PLAYER_MOVE_LEFT]  = e.type == SDL_KEYDOWN; break;
 				case SDLK_s: input->command_states[COMMAND_PLAYER_MOVE_DOWN]  = e.type == SDL_KEYDOWN; break;
 				case SDLK_d: input->command_states[COMMAND_PLAYER_MOVE_RIGHT] = e.type == SDL_KEYDOWN; break;
+				case SDLK_q: input->command_states[COMMAND_QUIT]              = e.type == SDL_KEYDOWN; break;
 				default: break;
 			}
 		} else if (e.type == SDL_MOUSEMOTION) {
