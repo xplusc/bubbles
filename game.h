@@ -11,13 +11,14 @@
 #include "input.h"
 #include "bubble.h"
 #include "tank.h"
+#include "arraylist.h"
 
 //extern const Uint64 MIN_MS_PER_DRAW_CALL; // not used and may never be used
 extern const Uint64 MS_PER_UPDATE;
 
 /**
  * Process one tick (1/60 s) of time in the game simulation. Takes elapsed time,
- * the input object, a list of tanks, and the render rects list.
+ * the input object, a list of tanks, and the render rects ArrayList.
  * 
  * Update order (so far):
  *   - Poll input (happens outside this function currently)
@@ -25,7 +26,7 @@ extern const Uint64 MS_PER_UPDATE;
  *   - Apply controls
  *   - Build render conveyor (the list of rects being sent to game_Render())
  */
-void game_Update(Uint64, const Input*, Tank*, SDL_Rect*);
+void game_Update(Uint64, const Input*, Tank*, ArrayList*);
 
 /**
  * Display current game state to the screen. Takes an SDL window, SDL renderer,

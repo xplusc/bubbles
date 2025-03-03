@@ -43,9 +43,9 @@ void tank_ApplyControls(const Input *input, Tank *tank)
 		tank->v_x += acceleration * delta_x;
 	} else {
 		tank->v_x *= drag_factor;
-		/*int sign_before = util_sign(tank->v_x);
+		/*int sign_before = util_Sign(tank->v_x);
 		tank->v_x -= acceleration * sign_before;
-		if (sign_before != util_sign(tank->v_x)) {
+		if (sign_before != util_Sign(tank->v_x)) {
 			tank->v_x = 0.0;
 		}*/
 	}
@@ -53,14 +53,14 @@ void tank_ApplyControls(const Input *input, Tank *tank)
 		tank->v_y += acceleration * delta_y;
 	} else {
 		tank->v_y *= drag_factor;
-		/*int sign_before = util_sign(tank->v_y);
+		/*int sign_before = util_Sign(tank->v_y);
 		tank->v_y -= acceleration * sign_before;
-		if (sign_before != util_sign(tank->v_y)) {
+		if (sign_before != util_Sign(tank->v_y)) {
 			tank->v_y = 0.0;
 		}*/
 	}
-	tank->v_x = util_clamp(tank->v_x, -max_speed, max_speed);
-	tank->v_y = util_clamp(tank->v_y, -max_speed, max_speed);
+	tank->v_x = util_Clamp(tank->v_x, -max_speed, max_speed);
+	tank->v_y = util_Clamp(tank->v_y, -max_speed, max_speed);
 	
 	tank->x += tank->v_x;
 	tank->y += tank->v_y;

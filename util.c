@@ -1,11 +1,13 @@
 #include "util.h"
 
-int util_sign(int x)
+#include <stdlib.h>
+
+int util_Sign(int x)
 {
 	return (x > 0) - (x < 0);
 }
 
-double util_clamp(double x, double lower, double upper)
+double util_Clamp(double x, double lower, double upper)
 {
 	if (x < lower) {
 		return lower;
@@ -14,4 +16,9 @@ double util_clamp(double x, double lower, double upper)
 	} else {
 		return x;
 	}
+}
+
+double util_RandRange(double lower, double upper)
+{
+	return lower + (upper - lower) * ((double) rand() / RAND_MAX);
 }
