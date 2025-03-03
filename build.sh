@@ -5,6 +5,7 @@ gcc -o bubbles \
 	game.c \
 	input.c \
 	tank.c \
+	bubble.c \
 	arraylist.c \
 	util.c \
 	-I./SDL2/include/SDL2 -I./SDL2_image/include/SDL2 \

@@ -65,14 +65,18 @@ int game_Run(SDL_Window *wind, SDL_Renderer *rend)
 	}
 	
 	BubbleSprite bs = {0.0, 0.0, 40.0, 625.0, 0.15, {0}, tex_bubble};
+	bubble_Randomize(&bs);
 	arraylist_Append(bubble_list, &bs);
 	bs.x += 25.0;
 	bs.size += -20.0;
+	bubble_Randomize(&bs);
 	arraylist_Append(bubble_list, &bs);
 	bs.x += -50.0;
 	bs.y += -15.0;
+	bubble_Randomize(&bs);
 	arraylist_Append(bubble_list, &bs);
 	bs.y += 30.0;
+	bubble_Randomize(&bs);
 	arraylist_Append(bubble_list, &bs);
 	
 	player_tank.x = 320.0;

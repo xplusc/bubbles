@@ -19,4 +19,10 @@ struct bubble_sprite {
 };
 typedef struct bubble_sprite BubbleSprite;
 
+/**
+ * Randomizes the provided BubbleSprite's period and pulsiness
+ * values.
+ */
+void bubble_Randomize(BubbleSprite*);
+
 #endif // BUBBLE_H
