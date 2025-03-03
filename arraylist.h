@@ -56,6 +56,12 @@ int arraylist_UpdateAt(ArrayList*, const size_t, const void*);
 int arraylist_RemoveAt(ArrayList*, const size_t);
 
 /**
+ * Clears <list> so that <num_elements> is 0. MUST CLEAN UP ELEMENTS BEFORE 
+ * CLEARING OR THERE WILL BE MEMORY LEAKS.
+ */
+void arraylist_Clear(ArrayList*);
+
+/**
  * Expand an ArrayList's capacity by doubling it with realloc().
  * Returns 1 if an error occurred while reallocating memory.
  */

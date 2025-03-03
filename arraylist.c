@@ -77,6 +77,11 @@ int arraylist_RemoveAt(ArrayList *list, const size_t index)
 	return 0;
 }
 
+void arraylist_Clear(ArrayList *list)
+{
+	list->num_elements = 0;
+}
+
 int arraylist_Expand(ArrayList *list)
 {
 	void *temp = realloc(list->data, 2 * list->capacity * list->element_size);

@@ -12,6 +12,7 @@ int main(int argc, char *argv[])
 	SHOW_PASSES = 1;
 	
 	// arraylist test
+	// initialization
 	ArrayList *list = arraylist_Create(sizeof(arraylist_test_t));
 	test_Exists("list", list);
 	test_Exists("list->data", list->data);
@@ -19,18 +20,26 @@ int main(int argc, char *argv[])
 	test_Equal("list->num_elements", list->num_elements, 0);
 	test_Equal("list->capacity", list->capacity, 16);
 	
+	// appending element
 	arraylist_test_t alt = arraylist_test_Create(random_Range(4, 16));
 	arraylist_test_FillRandom(&alt);
 	arraylist_Append(list, &alt);
 	test_Equal("list->num_elements", list->num_elements, 1);
 	test_InRange("list->data[0].array[0]", ((arraylist_test_t*) list->data)[0].array[0], 0, 10);
 	
+	// clearing list
+	arraylist_Clear(list);
+	test_Equal("list->num_elements", list->num_elements, 0);
+	
+	// appending different elements
+	arraylist_Append(list, &alt);
 	alt = arraylist_test_Copy(&((arraylist_test_t*) list->data)[0]);
 	alt.array[0] = random_Range(10, 20);
 	arraylist_Append(list, &alt);
 	test_Equal("list->num_elements", list->num_elements, 2);
 	test_NotEqual("list->data[0].array[0]", ((arraylist_test_t*) list->data)[0].array[0], ((arraylist_test_t*) list->data)[1].array[0]);
 	
+	// updating element to not be different
 	alt = arraylist_test_Copy(&((arraylist_test_t*) list->data)[0]);
 	arraylist_test_Destroy(&((arraylist_test_t*) list->data)[1]);
 	test_NotExists("list->data[1].array", ((arraylist_test_t*) list->data)[1].array);
@@ -39,6 +48,7 @@ int main(int argc, char *argv[])
 	arraylist_UpdateAt(list, 1, &alt);
 	test_Equal("list->data[0].array[0]", ((arraylist_test_t*) list->data)[0].array[0], ((arraylist_test_t*) list->data)[1].array[0]);
 	
+	// removing element
 	((arraylist_test_t*) list->data)[1].array[0] = random_Range(10, 20);
 	test_NotInRange("list->data[0].array[0]", ((arraylist_test_t*) list->data)[0].array[0], 10, 20);
 	arraylist_test_Destroy(&((arraylist_test_t*) list->data)[0]);
@@ -46,6 +56,7 @@ int main(int argc, char *argv[])
 	test_Equal("list->num_elements", list->num_elements, 1);
 	test_InRange("list->data[0].array[0]", ((arraylist_test_t*) list->data)[0].array[0], 10, 20);
 	
+	// appending until expansion
 	for (int i = 0; i < 16; ++i) {
 		alt = arraylist_test_Copy(&((arraylist_test_t*) list->data)[0]);
 		arraylist_Append(list, &alt);
@@ -54,11 +65,13 @@ int main(int argc, char *argv[])
 	test_Equal("list->capacity", list->capacity, 32);
 	test_Equal("list->num_elements", list->num_elements, 17);
 	
+	// removing all elements
 	for (int i = list->num_elements - 1; i >= 0; --i) {
 		arraylist_RemoveAt(list, i);
 	}
 	test_Equal("list->num_elements", list->num_elements, 0);
 	
+	// freeing all memory
 	arraylist_Destroy(&list);
 	test_NotExists("list", list);
 	
